@@ -3,16 +3,15 @@ using UnityEngine;
 
 namespace RainMeadow
 {
-    public class RealizedSpearState : RealizedWeaponState
+    [GenerateState]
+    public partial class RealizedSpearState : RealizedWeaponState
     {
-        private Vector2? stuckInWall;
-        private OnlineEntity.EntityId stuckInObject;
-        private AppendageRef stuckInAppendage;
-        private byte stuckInChunkIndex;
-        private sbyte stuckBodyPart;
-        private float stuckRotation;
-
-        bool hasSpearData;
+        [SerializeNullable(Group = "hasSpearData")] private Vector2? stuckInWall;
+        [SerializeNullable(Group = "hasSpearData")] private OnlineEntity.EntityId stuckInObject;
+        [SerializeNullable(Group = "hasSpearData")] private AppendageRef stuckInAppendage;
+        [Serialize(Group = "hasSpearData")] private byte stuckInChunkIndex;
+        [Serialize(Group = "hasSpearData")] private sbyte stuckBodyPart;
+        [Serialize(Group = "hasSpearData")] private float stuckRotation;
 
         public override RealizedPhysicalObjectState EmptyDelta() => new RealizedSpearState();
         public RealizedSpearState() { }
@@ -59,6 +58,7 @@ namespace RainMeadow
 
         public override StateType stateType => StateType.RealizedSpearState;
 
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             base.CustomSerialize(serializer);
@@ -75,7 +75,7 @@ namespace RainMeadow
                     serializer.Serialize(ref stuckRotation);
                 }
             }
-        }
+        }*/
 
         public override long EstimatedSize(bool inDeltaContext)
         {
@@ -91,6 +91,7 @@ namespace RainMeadow
             return val;
         }
 
+        /*
         public override RealizedPhysicalObjectState Delta(RealizedPhysicalObjectState _other)
         {
             var other = (RealizedSpearState)_other;
@@ -110,7 +111,9 @@ namespace RainMeadow
             delta.IsEmptyDelta &= !delta.hasSpearData;
             return delta;
         }
+        */
 
+        /*
         public override RealizedPhysicalObjectState ApplyDelta(RealizedPhysicalObjectState _other)
         {
             var other = (RealizedSpearState)_other;
@@ -135,6 +138,7 @@ namespace RainMeadow
             }
             return result;
         }
+        */
     }
 
     public class AppendageRef : Serializer.ICustomSerializable, IEquatable<AppendageRef>

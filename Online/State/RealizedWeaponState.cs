@@ -3,18 +3,16 @@ using UnityEngine;
 
 namespace RainMeadow
 {
-
-    public class RealizedWeaponState : RealizedPhysicalObjectState
+    [GenerateState]
+    public partial class RealizedWeaponState : RealizedPhysicalObjectState
     {
         // is all this data really necessary?
-        protected byte mode;
-        private Vector2 tailPos;
-        private Vector2? setRotation;
-        private Vector2 rotation;
-        private Vector2 lastRotation;
-        private float rotationSpeed;
-
-        bool hasWeaponData;
+        [Serialize(Group = "hasWeaponData")] protected byte mode;
+        [Serialize(Group = "hasWeaponData")] private Vector2 tailPos;
+        [SerializeNullable(Group = "hasWeaponData")] private Vector2? setRotation;
+        [Serialize(Group = "hasWeaponData")] private Vector2 rotation;
+        [Serialize(Group = "hasWeaponData")] private Vector2 lastRotation;
+        [Serialize(Group = "hasWeaponData")] private float rotationSpeed;
 
         public override RealizedPhysicalObjectState EmptyDelta() => new RealizedWeaponState();
         public RealizedWeaponState() { }
@@ -45,6 +43,7 @@ namespace RainMeadow
 
         public override StateType stateType => StateType.RealizedWeaponState;
 
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             base.CustomSerialize(serializer);
@@ -59,6 +58,7 @@ namespace RainMeadow
                 serializer.Serialize(ref rotationSpeed);
             }
         }
+        */
 
         public override long EstimatedSize(bool inDeltaContext)
         {
@@ -72,6 +72,7 @@ namespace RainMeadow
             return val;
         }
 
+        /*
         public override RealizedPhysicalObjectState Delta(RealizedPhysicalObjectState _other)
         {
             var other = (RealizedWeaponState)_other;
@@ -91,7 +92,10 @@ namespace RainMeadow
             delta.IsEmptyDelta &= !delta.hasWeaponData;
             return delta;
         }
+        */
 
+
+        /*
         public override RealizedPhysicalObjectState ApplyDelta(RealizedPhysicalObjectState _other)
         {
             var other = (RealizedWeaponState)_other;
@@ -116,5 +120,6 @@ namespace RainMeadow
             }
             return result;
         }
+        */
     }
 }

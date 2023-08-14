@@ -2,18 +2,19 @@
 
 namespace RainMeadow
 {
-    public class RealizedPlayerState : RealizedCreatureState
+    [GenerateState]
+    public partial class RealizedPlayerState : RealizedCreatureState
     {
-        private byte animationIndex;
-        private short animationFrame;
-        private byte bodyModeIndex;
-        private bool standing;
-        private ushort inputs;
-        private float analogInputX;
-        private float analogInputY;
+        [Serialize(Group = "hasAnimationValue")] private byte animationIndex;
+        [Serialize(Group = "hasAnimationValue")] private short animationFrame;
+        [Serialize(Group = "hasAnimationValue")] private byte bodyModeIndex;
+        [Serialize(Group = "hasAnimationValue")] private bool standing;
+        [Serialize(Group = "hasInputValue")] private ushort inputs;
+        [SerializeHalf(Group = "hasInputValue")] private float analogInputX;
+        [SerializeHalf(Group = "hasInputValue")] private float analogInputY;
 
-        bool hasAnimationValue;
-        bool hasInputValue;
+        //bool hasAnimationValue;
+        //bool hasInputValue;
 
         public override RealizedPhysicalObjectState EmptyDelta() => new RealizedPlayerState();
         public RealizedPlayerState() { }
@@ -74,6 +75,7 @@ namespace RainMeadow
 
         public override StateType stateType => StateType.RealizedPlayerState;
 
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             base.CustomSerialize(serializer);
@@ -93,10 +95,11 @@ namespace RainMeadow
                 serializer.SerializeHalf(ref analogInputY);
             }
         }
-
+        */
         public override long EstimatedSize(bool inDeltaContext)
         {
             var val = base.EstimatedSize(inDeltaContext);
+            /*
             if (IsDelta) val += 2;
             if (!IsDelta || hasAnimationValue)
             {
@@ -106,9 +109,10 @@ namespace RainMeadow
             {
                 val += 6;
             }
-            return val;
+            */
+            return val + 2 + 5 + 6;
         }
-
+        /*
         public override RealizedPhysicalObjectState Delta(RealizedPhysicalObjectState _other)
         {
             var other = (RealizedPlayerState)_other;
@@ -158,5 +162,6 @@ namespace RainMeadow
             }
             return result;
         }
+        */
     }
 }

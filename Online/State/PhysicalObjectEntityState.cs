@@ -4,14 +4,12 @@ using System.Text;
 
 namespace RainMeadow
 {
-    public class PhysicalObjectEntityState : EntityState
+    [GenerateState]
+    public partial class PhysicalObjectEntityState : EntityState
     {
-        public WorldCoordinate pos;
-        public bool realized;
-        public RealizedPhysicalObjectState realizedObjectState;
-
-        private bool hasPosValue; // delta
-        private bool hasRealizedValue; // delta
+        [Serialize(Group = "hasPosValue")] public WorldCoordinate pos;
+        [Serialize(Group = "hasPosValue")] public bool realized;
+        [SerializeNullablePolyState(Group = "hasRealizedValue")] public RealizedPhysicalObjectState realizedObjectState;
 
         public override EntityState EmptyDelta() => new PhysicalObjectEntityState();
         public PhysicalObjectEntityState() : base() { }
@@ -57,6 +55,7 @@ namespace RainMeadow
             }
         }
 
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             base.CustomSerialize(serializer);
@@ -72,6 +71,7 @@ namespace RainMeadow
                 serializer.SerializeNullablePolyState(ref realizedObjectState);
             }
         }
+        */
 
         public override long EstimatedSize(bool inDeltaContext)
         {
@@ -79,9 +79,11 @@ namespace RainMeadow
             if (IsDelta) size += 2;
             if (!IsDelta || hasPosValue) size += 9;
             if (!IsDelta || hasRealizedValue) size += realizedObjectState == null ? 1 : 1 + realizedObjectState.EstimatedSize(inDeltaContext);
+            size += 20;
             return size;
         }
 
+        /*
         public override EntityState Delta(EntityState _other)
         {
             var delta = (PhysicalObjectEntityState)base.Delta(_other);
@@ -94,6 +96,9 @@ namespace RainMeadow
             delta.IsEmptyDelta &= (!delta.hasPosValue && !delta.hasRealizedValue);
             return delta;
         }
+        */
+
+        /*
         public override EntityState ApplyDelta(EntityState _other)
         {
             var result = (PhysicalObjectEntityState)base.ApplyDelta(_other);
@@ -103,6 +108,7 @@ namespace RainMeadow
             result.realizedObjectState = other.hasRealizedValue ? realizedObjectState?.ApplyDelta(other.realizedObjectState) ?? other.realizedObjectState : realizedObjectState;
             return result;
         }
+        */
 
         public override string DebugPrint(int ident)
         {

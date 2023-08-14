@@ -2,13 +2,12 @@ using RainMeadow.Generics;
 
 namespace RainMeadow
 {
-    public class CreatureStateState : OnlineState, IDelta<CreatureStateState>
+    [GenerateState]
+    public partial class CreatureStateState : OnlineState, IDelta<CreatureStateState>
     {
         // main part of AbstractCreatureState
-        public bool alive;
-        public byte meatLeft;
-
-        protected bool hasStateValue;
+        [Serialize(Group = "hasStateValue")] public bool alive;
+        [Serialize(Group = "hasStateValue")] public byte meatLeft;
 
         public virtual CreatureStateState EmptyDelta() => new();
         public CreatureStateState() { }
@@ -23,6 +22,8 @@ namespace RainMeadow
 
         public bool IsEmptyDelta { get; set; }
 
+
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             if (serializer.IsDelta) serializer.Serialize(ref hasStateValue);
@@ -31,7 +32,7 @@ namespace RainMeadow
                 serializer.Serialize(ref alive);
                 serializer.Serialize(ref meatLeft);
             }
-        }
+        }*/
 
         public override long EstimatedSize(bool inDeltaContext)
         {
@@ -44,6 +45,7 @@ namespace RainMeadow
             return val;
         }
 
+        /*
         public virtual CreatureStateState Delta(CreatureStateState _other)
         {
             if (_other == null) throw new InvalidProgrammerException("null");
@@ -53,8 +55,9 @@ namespace RainMeadow
             delta.hasStateValue = alive != _other.alive || meatLeft != _other.meatLeft;
             delta.IsEmptyDelta = !delta.hasStateValue;
             return delta;
-        }
+        }*/
 
+        /*
         public virtual CreatureStateState ApplyDelta(CreatureStateState _other)
         {
             if (_other == null) throw new InvalidProgrammerException("null");
@@ -71,7 +74,7 @@ namespace RainMeadow
             }
             return result;
         }
-
+        */
         public override string DebugPrint(int ident)
         {
             return new string(' ', ident) + GetType().Name + "\n";

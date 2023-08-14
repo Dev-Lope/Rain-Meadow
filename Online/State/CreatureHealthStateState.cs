@@ -1,8 +1,9 @@
 namespace RainMeadow
 {
-    public class CreatureHealthStateState : CreatureStateState
+    [GenerateState]
+    public partial class CreatureHealthStateState : CreatureStateState
     {
-        public float health;
+        [Serialize(Group = "hasStateValue")] public float health;
 
         public override CreatureStateState EmptyDelta() => new CreatureHealthStateState();
         public CreatureHealthStateState() { }
@@ -15,14 +16,16 @@ namespace RainMeadow
 
         public override StateType stateType => StateType.CreatureHealthState;
 
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             base.CustomSerialize(serializer);
             if (!serializer.IsDelta || hasStateValue) // reuses same flag as parent
                 serializer.Serialize(ref health);
-        }
+        }*/
 
 
+        /*
         public override CreatureStateState Delta(CreatureStateState _other)
         {
             var delta = (CreatureHealthStateState)base.Delta(_other);
@@ -32,7 +35,9 @@ namespace RainMeadow
             delta.IsEmptyDelta &= !delta.hasStateValue;
             return delta;
         }
+        */
 
+        /*
         public override CreatureStateState ApplyDelta(CreatureStateState _other)
         {
             var result = (CreatureHealthStateState)base.ApplyDelta(_other);
@@ -40,5 +45,6 @@ namespace RainMeadow
             result.health = other.hasStateValue ? other.health : health;
             return result;
         }
+        */
     }
 }

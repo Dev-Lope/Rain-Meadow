@@ -7,12 +7,11 @@ using UnityEngine;
 namespace RainMeadow
 {
     // main-ish component of PhysicalObjectEntityState
-    public class RealizedPhysicalObjectState : OnlineState, IDelta<RealizedPhysicalObjectState>
+    [GenerateState]
+    public partial class RealizedPhysicalObjectState : OnlineState, IDelta<RealizedPhysicalObjectState>
     {
-        private ChunkState[] chunkStates;
-        private byte collisionLayer;
-
-        bool hasPhysicsValue;
+        [Serialize(Group = "hasPhysicsValue")] private ChunkState[] chunkStates;
+        [Serialize(Group = "hasPhysicsValue")] private byte collisionLayer;
 
         public virtual RealizedPhysicalObjectState EmptyDelta() => new();
         public RealizedPhysicalObjectState() { }
@@ -48,10 +47,13 @@ namespace RainMeadow
             po.collisionLayer = collisionLayer;
         }
 
-        public bool IsDelta { get => _isDelta; set => _isDelta = value; }
-        protected bool _isDelta;
+        
+        //public bool IsDelta { get => _isDelta; set => _isDelta = value; }
+        //protected bool _isDelta;
+
         public bool IsEmptyDelta { get; set; }
 
+        /*
         public override void CustomSerialize(Serializer serializer)
         {
             if (serializer.IsDelta) // In a non-delta context, can only be non-delta
@@ -66,6 +68,7 @@ namespace RainMeadow
                 serializer.Serialize(ref collisionLayer);
             }
         }
+        */
 
         public override long EstimatedSize(bool inDeltaContext)
         {
@@ -78,6 +81,7 @@ namespace RainMeadow
             return val;
         }
 
+        /*
         public virtual RealizedPhysicalObjectState Delta(RealizedPhysicalObjectState _other)
         {
             if (_other == null) throw new InvalidProgrammerException("null");
@@ -90,7 +94,10 @@ namespace RainMeadow
             delta.IsEmptyDelta = !delta.hasPhysicsValue;
             return delta;
         }
+        */
 
+
+        /*
         public virtual RealizedPhysicalObjectState ApplyDelta(RealizedPhysicalObjectState _other)
         {
             if (_other == null) throw new InvalidProgrammerException("null");
@@ -100,6 +107,7 @@ namespace RainMeadow
             result.collisionLayer = _other.hasPhysicsValue ? _other.collisionLayer : collisionLayer;
             return result;
         }
+        */
 
         public override string DebugPrint(int ident)
         {
